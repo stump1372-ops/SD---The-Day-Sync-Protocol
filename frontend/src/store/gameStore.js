@@ -1,8 +1,15 @@
 import { create } from 'zustand';
-const API_BASE = import.meta.env.VITE_API_URL || 
-                 (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
-                     ? window.location.origin 
-                     : 'http://localhost:5000');
+const getApiUrl = () => {
+    const envUrl = import.meta.env.VITE_API_URL;
+    if (envUrl && !envUrl.includes('localhost') && !envUrl.includes('127.0.0.1')) {
+        return envUrl;
+    }
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        return window.location.origin;
+    }
+    return 'http://localhost:5000';
+};
+const API_BASE = getApiUrl();
 
 export const useGameStore = create((set) => ({
     playerHealth: 100,

@@ -32,7 +32,7 @@ export default class PvPGame extends Phaser.Scene {
 
         // Physics Details (Object Layer for curved edges)
         this.physicsDetails = this.physics.add.staticGroup();
-        const details = map.createFromObjects('Physics_Details', { name: '', key: 'tileset_70' });
+        const details = map.createFromObjects('Physics_Details', { name: '', key: 'background' });
         details.forEach(detail => {
             detail.setDepth(5);
             detail.setVisible(false);
@@ -63,7 +63,7 @@ export default class PvPGame extends Phaser.Scene {
         this.player.weapons.addWeapon('dagger');
         
         // Match Solo Collision
-        this.physics.add.collider(this.player.sprite, [this.platforms]);
+        this.physics.add.collider(this.player.sprite, [this.platforms, this.physicsDetails]);
         this.cameras.main.startFollow(this.player.sprite, true, 0.1, 0.1);
 
         // 4. Spawn Remote Players (Into the 'enemies' group)
@@ -88,10 +88,10 @@ export default class PvPGame extends Phaser.Scene {
         });
 
         // 6. Collision & Overlap Logic (PVP VERSION)
-        this.physics.add.collider(this.enemies, [this.platforms]);
-        this.physics.add.collider(this.weaponPickups, [this.platforms]);
+        this.physics.add.collider(this.enemies, [this.platforms, this.physicsDetails]);
+        this.physics.add.collider(this.weaponPickups, [this.platforms, this.physicsDetails]);
 
-        this.physics.add.collider(this.player.weapons.bullets, [this.platforms], (b) => {
+        this.physics.add.collider(this.player.weapons.bullets, [this.platforms, this.physicsDetails], (b) => {
             if (b.isRocket) b.onImpact(); else b.destroy();
         });
 
@@ -304,7 +304,7 @@ export default class PvPGame extends Phaser.Scene {
                 grenade.body.setBounce(0.6);
                 grenade.body.setCircle(12);
                 grenade.body.setDrag(50);
-                this.physics.add.collider(grenade, this.platforms);
+                this.physics.add.collider(grenade, [this.platforms, this.physicsDetails]);
                 this.physics.add.collider(grenade, this.player.sprite);
                 
                 this.time.delayedCall(2500, () => {

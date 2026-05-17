@@ -381,11 +381,25 @@ export default class PvPGame extends Phaser.Scene {
     }
 
     removeLootLocally(pointIndex) {
+        if (pointIndex >= 0 && pointIndex < this.lootPoints.length) {
+            this.lootPoints[pointIndex].active = false;
+        }
         this.weaponPickups.getChildren().forEach(p => {
             if (p.pointIndex === pointIndex) {
                 p.destroy();
             }
         });
+    }
+
+    respawnLootLocally(pointIndex, weaponKey) {
+        if (pointIndex < 0 || pointIndex >= this.lootPoints.length) return;
+        const point = this.lootPoints[pointIndex];
+        
+        // Safety check to prevent double-spawning
+        if (point.active) return;
+
+        this.spawnWeaponPickup(point.x, point.y, weaponKey, null, true, point.index);
+        point.active = true;
     }
 
     showResults(leaderboard) {

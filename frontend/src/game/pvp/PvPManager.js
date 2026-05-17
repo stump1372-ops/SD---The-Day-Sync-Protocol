@@ -58,6 +58,12 @@ class PvPManager {
             }
         });
 
+        this.socket.on('respawn_loot', (data) => {
+            if (this.gameScene && this.gameScene.respawnLootLocally) {
+                this.gameScene.respawnLootLocally(data.pointIndex, data.weaponKey);
+            }
+        });
+
         this.socket.on('player_event', (event) => {
             // Forward movement/combat events to the active PvPGame scene
             if (this.gameScene) {

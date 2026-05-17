@@ -112,6 +112,18 @@ io.on('connection', (socket) => {
     socket.on('pickup_loot', (data) => {
         // Broadcast to everyone that this loot point is now empty
         io.to(data.code).emit('loot_removed', { pointIndex: data.pointIndex });
+
+        const room = rooms.get(data.code);
+        if (!room) return;
+
+        // Server-authoritative respawn timer (15 seconds)
+        setTimeout(() => {
+            if (rooms.has(data.code)) {
+                const keys = ['pistol', 'smg', 'rifle', 'shotgun', 'sniper', 'launcher', 'machinegun', 'tacticalshotgun', 'grenade', 'medkit'];
+                const randomKey = keys[Math.floor(Math.random() * keys.length)];
+                io.to(data.code).emit('respawn_loot', { pointIndex: data.pointIndex, weaponKey: randomKey });
+            }
+        }, 15000);
     });
 
     socket.on('set_ready', (data) => {

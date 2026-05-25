@@ -484,7 +484,6 @@ export default class WeaponSystem {
         if (this.onReload) {
             this.onReload();
         }
-        
         this.scene.time.delayedCall(wp.reloadTime, () => {
             const needed = wp.magSize - slotAmmo.loaded;
             const take = Math.min(needed, slotAmmo.reserve);

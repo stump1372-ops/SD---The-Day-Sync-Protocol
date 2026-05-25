@@ -170,7 +170,6 @@ export default class PvPGame extends Phaser.Scene {
 
         // Event for Network Reloads
         this.player.weapons.onReload = () => PvPManager.sendPlayerUpdate({ event: 'reload' });
-
         // Event for Network Explosions
         this.onExplosion = (data) => PvPManager.sendPlayerUpdate({ event: 'explosion', ...data });
         

@@ -15,7 +15,6 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.14.2",
-    "sd-day-sync-protocol-root": "file:..",
     "socket.io-client": "^4.8.3",
     "zustand": "^5.0.12"
   },

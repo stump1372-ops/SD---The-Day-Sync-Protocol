@@ -18,7 +18,6 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.1",
-    "sd-day-sync-protocol-root": "file:..",
     "socket.io": "^4.8.3"
   }
 }
